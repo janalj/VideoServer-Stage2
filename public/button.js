@@ -5,8 +5,8 @@ button.addEventListener("click",buttonPress);
 async function sendPostRequest(url,data) {
   params = {
     method: 'POST', 
-    headers: {'Content-Type': 'text/plain'},
-    body: data };
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data) };
   console.log("about to send post request");
   
   let response = await fetch(url,params);
@@ -18,3 +18,29 @@ async function sendPostRequest(url,data) {
   }
 }
 
+
+function buttonPress() { 
+    // Get all the user info.
+  let username = document.getElementById("user").value;
+  let URL = document.getElementById("URL").value;
+  let nickname = document.getElementById("nickname").value;
+
+  //let data = username+","+URL+","+nickname;
+
+  // sending data as Json format
+  let data = {
+    "Username": username,
+    "TikTokURL": URL,
+    "VideoNickname": nickname
+  };
+  
+  sendPostRequest("/videoData", data)
+  .then( function (response) {
+    console.log("Response recieved", response);
+    sessionStorage.setItem("nickname", nickname);
+    window.location = "redirect.html";
+  })
+  .catch( function(err) {
+    console.log("POST request error",err);
+  });
+}

@@ -5,19 +5,29 @@
 const express = require("express");
 // gets data out of HTTP request body 
 // and attaches it to the request object
+const app = express();
 const bodyParser = require('body-parser');
 // create object to interface with express
-const app = express();
-// Code in this section sets up an express pipeline
+
 
 // print info about incoming HTTP request 
 // for debugging
 app.use(function(req, res, next) {
   console.log(req.method,req.url);
   next();
-})
-app.use(bodyParser.json());
+});
+
+app.use(express.text());
 // make all the files in 'public' available 
+
+app.use(bodyParser.json());
+// Code in this section sets up an express pipeline
+
+app.use(function(req, res, next) {
+  console.log("body contains",req.body);
+  next();
+});
+
 app.use(express.static("public"));
 
 // if no file specified, return the main page
