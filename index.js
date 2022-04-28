@@ -10,6 +10,18 @@ const bodyParser = require('body-parser');
 // create object to interface with express
 
 
+
+/////////////////////////////////////
+// CALLING sqlWRAP and create the db
+const fetch = require("cross-fetch");
+// get Promise-based interface to sqlite3
+const db = require('./sqlWrap');
+// this also sets up the database
+/////////////////////////////////////
+
+
+
+
 // print info about incoming HTTP request 
 // for debugging
 app.use(function(req, res, next) {
