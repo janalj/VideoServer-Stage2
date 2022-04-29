@@ -44,3 +44,28 @@ function buttonPress() {
     console.log("POST request error",err);
   });
 }
+
+
+
+              //Things to do 
+
+// modify the previous continue button 
+// add the database verification for 8 videos 
+// only redirect to the redirect.html if data sucesfully inserts to the database
+
+
+
+
+// add a event listener for the My Video Button 
+//GET request for the list of videos in the database
+// Redirect to the myVideos.html page display them 
+
+
+
+
+// add a event listener for Play Game Button
+// GET request for url "/getMostRecent" for the video preview page
+// redirect to videoPreview.html page
+
+
+

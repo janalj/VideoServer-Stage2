@@ -65,3 +65,92 @@ app.use(function(req, res){
 const listener = app.listen(3000, function () {
   console.log("The static server is listening on port " + listener.address().port);
 });
+
+
+
+/****************************/
+/* some database operations */
+/****************************/
+
+
+// test the function that inserts into the database
+function databaseCodeExample() {
+
+  console.log("testing database");
+
+  // put the video data into an object
+  let vidObj = {
+"url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+ "nickname": "Cat vs Fish",
+ "userid": "ProfAmenta"
+   }
+
+ async function insertAndCount(vidObj) {
+
+   await insertVideo(vidObj);
+   const tableContents = await dumpTable();
+   console.log(tableContents.length);
+ }
+
+insertAndCount(vidObj)
+  .catch(function(err) {console.log("DB error!",err)});
+  
+  
+  /*
+  insertVideo(vidObj)
+    .then(function() {
+      console.log("success!");
+    })
+    .catch(function(err) {
+      console.log("SQL error",err)} );
+
+  dumpTable()
+  .then(function(result) {
+    let n = result.length;
+    console.log(n+" items in the database"); })
+  .catch(function(err) {
+      console.log("SQL error",err)} );
+  */
+  
+  getVideo("Cat vs Fish")
+    .then(function(result) {
+      // console.log("row contained",result); 
+          })
+    .catch(function(err) {
+      console.log("SQL error",err)} );
+
+}
+
+
+// inserting sample to videos.db
+//databaseCodeExample();
+
+// ******************************************** //
+// Define async functions to perform the database 
+// operations we need
+
+// An async function to insert a video into the database
+async function insertVideo(v) {
+  const sql = "insert into VideoTable (url,nickname,userid,flag) values (?,?,?,TRUE)";
+
+await db.run(sql,[v.url, v.nickname, v.userid]);
+}
+
+// an async function to get a video's database row by its nickname
+async function getVideo(nickname) {
+
+  // warning! You can only use ? to replace table data, not table name or column name.
+  const sql = 'select * from VideoTable where nickname = ?';
+
+let result = await db.get(sql, [nickname]);
+return result;
+}
+
+// an async function to get the whole contents of the database 
+async function dumpTable() {
+  const sql = "select * from VideoTable"
+  
+  let result = await db.all(sql)
+  return result;
+}
+
