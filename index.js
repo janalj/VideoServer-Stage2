@@ -44,7 +44,7 @@ app.use(express.static("public"));
 
 // if no file specified, return the main page
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/public/tiktokpets.html");
+  response.sendFile(__dirname + "/public/myVideos.html");
 });
 
 app.post("/videoData", (req, res) =>{
