@@ -45,6 +45,14 @@ db.run = util.promisify(db.run);
 db.get = util.promisify(db.get);
 db.all = util.promisify(db.all);
 
+
+// allow code in other server .js files to use the db object
+module.exports = db;
+
+
+
+
+
 // empty all data from db
 db.deleteEverything = async function() {
   await db.run("delete from VideoTable");
@@ -52,5 +60,7 @@ db.deleteEverything = async function() {
   await db.run("vacuum");
 }
 
-// allow code in other server .js files to use the db object
-module.exports = db;
+
+
+// // function call to delete everything
+// db.deleteEverything();

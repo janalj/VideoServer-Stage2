@@ -38,45 +38,46 @@ div.headerCenter {
 }
 
 h1 {
-    font-size: 48px;
-    font-family: "Boogaloo";
+  font-size: 48px;
+  font-family: "Boogaloo";
 }
 
 h2 {
-    display: block;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 24px;
-    text-align: center;
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  text-align: center;
 }
 
 button.boxButton {
-    border-radius: 10px;
-    width: 130px;
-    height: 50px;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    color: whitesmoke;
-    background-color: rgba(238, 29, 82, 0.9);
-    cursor: pointer;
-    transition: 0.3s ease;
-    border: none;
-    margin: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+  width: 130px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  color: whitesmoke;
+  background-color: rgba(238, 29, 82, 0.9);
+  cursor: pointer;
+  transition: 0.3s ease;
+  border: none;
+  margin: 10px;
 }
 
 button.boxButton:hover {
-  background-color: rgb(105, 201, 208);
+  background-color: rgba(105, 201, 208, 0.9);
 }
 
 .videosList {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 78%;
-    margin-bottom: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 78%;
+  margin-bottom: 80px;
 }
 
 .list {
@@ -114,5 +115,5 @@ button.delete{
 }
 
 button.delete:hover {
-  color: rgb(105, 201, 208);
+  color: rgba(105, 201, 208, 0.9);
 }

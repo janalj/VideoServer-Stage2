@@ -44,11 +44,13 @@ app.use(express.static("public"));
 
 // if no file specified, return the main page
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/public/myVideos.html");
+  response.sendFile(__dirname + "/public/tiktokpets.html");
 });
 
 app.post("/videoData", (req, res) =>{
   console.log("sending Response")
+  // req.body to display the json , change it back to the object
+  // insert the 
   return res.send('recieved POST'); 
 });
 
@@ -86,35 +88,41 @@ function databaseCodeExample() {
    }
 
  async function insertAndCount(vidObj) {
-
+  
    await insertVideo(vidObj);
-   const tableContents = await dumpTable();
+   const tableContents = await dumpTable(); 
    console.log(tableContents.length);
+   console.log(dumpTable())
+   // return the length of the table to see if it's more than 8
+   return tableContents.length;
+   
  }
+
+
 
 insertAndCount(vidObj)
   .catch(function(err) {console.log("DB error!",err)});
   
   
-  /*
+  
   insertVideo(vidObj)
     .then(function() {
       console.log("success!");
     })
     .catch(function(err) {
       console.log("SQL error",err)} );
-
+ 
   dumpTable()
   .then(function(result) {
     let n = result.length;
     console.log(n+" items in the database"); })
   .catch(function(err) {
       console.log("SQL error",err)} );
-  */
+ 
   
   getVideo("Cat vs Fish")
     .then(function(result) {
-      // console.log("row contained",result); 
+       console.log("row contained",result); 
           })
     .catch(function(err) {
       console.log("SQL error",err)} );
@@ -123,7 +131,7 @@ insertAndCount(vidObj)
 
 
 // inserting sample to videos.db
-//databaseCodeExample();
+databaseCodeExample();
 
 // ******************************************** //
 // Define async functions to perform the database 
@@ -148,9 +156,17 @@ return result;
 
 // an async function to get the whole contents of the database 
 async function dumpTable() {
-  const sql = "select * from VideoTable"
+  const sql = "select * from VideoTable";
   
-  let result = await db.all(sql)
+  let result = await db.all(sql);
   return result;
 }
 
+
+// // count function return the number of rows on the database
+
+// async function count(){
+//   const sql = "select count(*) from VideoTable";
+//   let result = await db.all(sql);
+//   return result;
+// }

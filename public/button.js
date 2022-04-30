@@ -36,9 +36,15 @@ function buttonPress() {
   
   sendPostRequest("/videoData", data)
   .then( function (response) {
+
+    // first check the number of videos in the database, if full, send back "databse full"
+    // find the "True " flag, change it to False,  insert the new one to True
     console.log("Response recieved", response);
+
+    
     sessionStorage.setItem("nickname", nickname);
-    window.location = "redirect.html";
+    //change the redirection to my videoPreview 
+    window.location = "videoPreview.html"; 
   })
   .catch( function(err) {
     console.log("POST request error",err);
@@ -52,7 +58,8 @@ function buttonPress() {
 // modify the previous continue button 
 // add the database verification for 8 videos 
 // only redirect to the redirect.html if data sucesfully inserts to the database
-
+// GET request for url "/getMostRecent" for the video preview page
+// redirect to videoPreview.html page
 
 
 
@@ -61,11 +68,14 @@ function buttonPress() {
 // Redirect to the myVideos.html page display them 
 
 
+// deletion on "x" delete the correspondent data entry from the data base
+// remove the block on the front page
 
 
-// add a event listener for Play Game Button
-// GET request for url "/getMostRecent" for the video preview page
-// redirect to videoPreview.html page
+
+
+
+
 
 
 
