@@ -66,8 +66,8 @@ button.boxButton {
     margin: 10px;
 }
 
-button:hover {
-    background-color: rgb(105, 201, 208);
+button.boxButton:hover {
+  background-color: rgb(105, 201, 208);
 }
 
 .videosList {
@@ -103,10 +103,16 @@ button:hover {
 }
 
 button.delete{
+  cursor: pointer;
+  transition: 0.3s ease;
   margin-left: 25px;
   margin-right: 25px;
   color: rgba(238, 29, 82, 0.9);
   background-color: transparent;
   font-size: 64px;
   font-family: "Boogaloo";
+}
+
+button.delete:hover {
+  color: rgb(105, 201, 208);
 }
