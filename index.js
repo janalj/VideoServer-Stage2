@@ -10,7 +10,6 @@ const bodyParser = require('body-parser');
 // create object to interface with express
 
 
-
 /////////////////////////////////////
 // CALLING sqlWRAP and create the db
 const fetch = require("cross-fetch");
@@ -18,8 +17,6 @@ const fetch = require("cross-fetch");
 const db = require('./sqlWrap');
 // this also sets up the database
 /////////////////////////////////////
-
-
 
 
 // print info about incoming HTTP request 
@@ -47,76 +44,87 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/public/tiktokpets.html");
 });
 
-app.post("/videoData", (req, res) =>{
-  console.log("sending Response")
-    // parse the JSON body to Javascript Object type
+// Handles post requests form the browser to store videoData to the database
+app.post("/videoData", async function(req, res){
+  console.log("sending Response");
+  // parse the JSON body to Javascript Object type
   let info = req.body;
-
-  
-  // create a new object to pass into insertVideo function 
+  // create a new object to pass into insertVideo function
   let vidObj = {
-"url": info.TikTokURL ,
- "nickname": info.VideoNickname,
- "userid": info.Username,
- "flag": 1
-   }
+    "url": info.TikTokURL ,
+    "nickname": info.VideoNickname,
+    "userid": info.Username,
+    "flag": 1
+  }
+  
+  let result = await dumpTable();
+  if(result.length < 8){
+    await updateFlag();
+    await insertVideo(vidObj);
+  }
+  else{
+    console.log("Database is full");
+  }
+  
+})
+
+/*
+app.post("/videoData", (req, res) =>{
+  console.log("sending Response");
+  // parse the JSON body to Javascript Object type
+  let info = req.body;
+  
+  // create a new object to pass into insertVideo function
+  let vidObj = {
+    "url": info.TikTokURL ,
+    "nickname": info.VideoNickname,
+    "userid": info.Username,
+    "flag": 1
+  }
    
   dumpTable()
     .then(function(result){
       let len = result.length;
-      //console.log("here?");
       //console.log(len);
-      if (len>=1 && len<=7){
+      if (len>=0 && len<=7){
         // find the current item with True flag, change it to False
         
         //get the most recent video with the flag value 1
         getMostRecentVideo(1)
           .then(function(result){//console.log(result);
-                                updateFlag() // change the previous flag value to 0
-                                .then(function(){
-                                  insertVideo(vidObj);})// insert new row to the database
-                                .catch(function(){console.log("Can't change the flag to 0")});
-                                })
+              updateFlag() // change the previous flag value to 0
+                .then(function(){
+                  insertVideo(vidObj);})// insert new row to the database
+                .catch(function(){console.log("Can't change the flag to 0")});
+              })
           .catch(function(){console.log("Can't get the most recent video")});
-      }
-      else if (len == 0){
-        insertVideo(vidObj);
-        console.log("Table is empty. Now adding a new row to the DataBase");
-        
       }
       else{
         // send back a response 
-        res.send("database full");
+        res.send("database full");  //?
       }
-      
     })
     .catch(function(){
       console.log("Couldn't get the entire table")
     })
     ;
-
-  
-  return res.send('recieved POST'); 
+  res.send('recieved POST'); //?
 });
+*/
+
 
 //6. get Request gets the most recently added video from database
 //NEED TO TEST THIS 
-
 app.get("/getMostRecent", (request, response) => {
- 
   // get the video with flag value of 1
   getMostRecentVideo(1)
-          .then(function(result)  
-             {console.log(result);
-              let jsonResult = JSON.stringify(data);       
-              // send back response in JSON
-              response.json(jsonResult);
-                                })
-          .catch(function(){console.log("No video with flag value 1")})
-    ;  
+    .then(function(result){ 
+        console.log(result);     
+        // send back response in JSON
+        response.json(jsonResult);
+    })
+    .catch(function(){console.log("No video with flag value 1")});  
 });
-
-
 
 
 // Need to add response if page not found!
@@ -132,8 +140,6 @@ app.use(function(req, res){
 const listener = app.listen(3000, function () {
   console.log("The static server is listening on port " + listener.address().port);
 });
-
-
 
 /****************************/
 /* some database operations */
@@ -176,11 +182,8 @@ function databaseCodeExample() {
    
  }
 
-
 // insertAndCount(vidObj)
 //   .catch(function(err) {console.log("DB error!",err)});
-  
-  
   
   insertVideo(vidObj)
     .then(function() {
@@ -216,48 +219,67 @@ function databaseCodeExample() {
 
 // An async function to insert a video into the database
 async function insertVideo(v) {
-  const sql = "insert into VideoTable (url,nickname,userid,flag) values (?,?,?,TRUE)";
+  try{
+    const sql = "insert into VideoTable (url,nickname,userid,flag) values (?,?,?,TRUE)";
 
-await db.run(sql,[v.url, v.nickname, v.userid]);
+    await db.run(sql,[v.url, v.nickname, v.userid]);
+  }
+  catch(err){
+    console.log(err);
+  }
 }
 
 // an async function to get a video's database row by its nickname
 async function getVideo(nickname) {
-
-  // warning! You can only use ? to replace table data, not table name or column name.
-  const sql = 'select * from VideoTable where nickname = ?';
-
-let result = await db.get(sql, [nickname]);
-return result;
+  try{
+    // warning! You can only use ? to replace table data, not table name or column name.
+    const sql = 'select * from VideoTable where nickname = ?';
+  
+    let result = await db.get(sql, [nickname]);
+    return result;
+  }
+  catch(err){
+    console.log(err);
+  }
 }
 
 // an async function to get the whole contents of the database 
 async function dumpTable() {
-  const sql = "select * from VideoTable";
-  
-  let result = await db.all(sql);
-  return result;
+  try{ 
+    const sql = "select * from VideoTable";
+    
+    let result = await db.all(sql);
+    return result;
+  }
+  catch(err){
+    console.log(err);
+  }
 }
-
-
 
 // an async function to get a video if the flag is 1
-
 async function getMostRecentVideo(flag) {
-
-  // warning! You can only use ? to replace table data, not table name or column name.
-  const sql = 'select * from VideoTable where flag = ?';
-
-let result = await db.get(sql, [flag]);
-return result;
+  try{
+    // warning! You can only use ? to replace table data, not table name or column name.
+    const sql = 'select * from VideoTable where flag = ?';
+  
+    let result = await db.get(sql, [flag]);
+    return result;
+  }
+  catch(err){
+    console.log(err);
+  }
 }
-
 
 // An async function to change the flag to False
 async function updateFlag() {
-  const sql = "update VideoTable set flag = 0 where flag = 1";
-
-await db.run(sql);
+  try{  
+    const sql = "update VideoTable set flag = 0 where flag = 1";
+  
+    await db.run(sql);
+  }
+  catch(err){
+    console.log(err);
+  }
 }
 
 
