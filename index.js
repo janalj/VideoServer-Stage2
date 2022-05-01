@@ -57,16 +57,32 @@ app.post("/videoData", (req, res) =>{
   let vidObj = {
 "url": info.TikTokURL ,
  "nickname": info.VideoNickname,
- "userid": info.Username
+ "userid": info.Username,
+ "flag": 1
    }
    
   dumpTable()
     .then(function(result){
       let len = result.length;
       //console.log("here?");
-      console.log(len);
-      if (len<=7){
+      //console.log(len);
+      if (len>=1 && len<=7){
         // find the current item with True flag, change it to False
+        
+        //get the most recent video with the flag value 1
+        getMostRecentVideo(1)
+          .then(function(result){//console.log(result);
+                                updateFlag() // change the previous flag value to 0
+                                .then(function(){
+                                  insertVideo(vidObj);})// insert new row to the database
+                                .catch(function(){console.log("Can't change the flag to 0")});
+                                })
+          .catch(function(){console.log("Can't get the most recent video")});
+      }
+      else if (len == 0){
+        insertVideo(vidObj);
+        console.log("Table is empty. Now adding a new row to the DataBase");
+        
       }
       else{
         // send back a response 
@@ -83,14 +99,22 @@ app.post("/videoData", (req, res) =>{
   return res.send('recieved POST'); 
 });
 
-// get Request get the most recently added video from database
-// find the flag value equals to 1
+//6. get Request gets the most recently added video from database
+//NEED TO TEST THIS 
+
 app.get("/getMostRecent", (request, response) => {
-  // response.sendFile(__dirname + "/public/tiktokpets.html");
+ 
+  // get the video with flag value of 1
+  getMostRecentVideo(1)
+          .then(function(result)  
+             {console.log(result);
+              let jsonResult = JSON.stringify(data);       
+              // send back response in JSON
+              response.json(jsonResult);
+                                })
+          .catch(function(){console.log("No video with flag value 1")})
+    ;  
 });
-
-
-
 
 
 
@@ -116,10 +140,18 @@ const listener = app.listen(3000, function () {
 /****************************/
 
 //Delete everything on the database
-//db.deleteEverything();
+db.deleteEverything();
 
 //Inset object
 
+// let vidObj = {
+// "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+//  "nickname": "Dog",
+//  "userid": "DogeCoin",
+//   "flag": 0
+//    }
+
+// insertVideo(vidObj);
 
 // test the function that inserts into the database
 function databaseCodeExample() {
@@ -206,6 +238,29 @@ async function dumpTable() {
   let result = await db.all(sql);
   return result;
 }
+
+
+
+// an async function to get a video if the flag is 1
+
+async function getMostRecentVideo(flag) {
+
+  // warning! You can only use ? to replace table data, not table name or column name.
+  const sql = 'select * from VideoTable where flag = ?';
+
+let result = await db.get(sql, [flag]);
+return result;
+}
+
+
+// An async function to change the flag to False
+async function updateFlag() {
+  const sql = "update VideoTable set flag = 0 where flag = 1";
+
+await db.run(sql);
+}
+
+
 
 
 
