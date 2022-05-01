@@ -41,8 +41,10 @@ function buttonPress() {
     // find the "True " flag, change it to False,  insert the new one to True
     console.log("Response recieved", response);
 
+    //remove sessionStorage
+    //sessionStorage.setItem("nickname", nickname);
+
     
-    sessionStorage.setItem("nickname", nickname);
     //change the redirection to my videoPreview 
     window.location = "videoPreview.html"; 
   })

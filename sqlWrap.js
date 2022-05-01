@@ -62,5 +62,5 @@ db.deleteEverything = async function() {
 
 
 
-// // function call to delete everything
-// db.deleteEverything();
+// function call to delete everything
+//db.deleteEverything();

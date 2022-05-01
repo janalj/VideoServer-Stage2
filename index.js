@@ -49,10 +49,51 @@ app.get("/", (request, response) => {
 
 app.post("/videoData", (req, res) =>{
   console.log("sending Response")
-  // req.body to display the json , change it back to the object
-  // insert the 
+    // parse the JSON body to Javascript Object type
+  let info = req.body;
+
+  
+  // create a new object to pass into insertVideo function 
+  let vidObj = {
+"url": info.TikTokURL ,
+ "nickname": info.VideoNickname,
+ "userid": info.Username
+   }
+   
+  dumpTable()
+    .then(function(result){
+      let len = result.length;
+      //console.log("here?");
+      console.log(len);
+      if (len<=7){
+        // find the current item with True flag, change it to False
+      }
+      else{
+        // send back a response 
+        res.send("database full");
+      }
+      
+    })
+    .catch(function(){
+      console.log("Couldn't get the entire table")
+    })
+    ;
+
+  
   return res.send('recieved POST'); 
 });
+
+// get Request get the most recently added video from database
+// find the flag value equals to 1
+app.get("/getMostRecent", (request, response) => {
+  // response.sendFile(__dirname + "/public/tiktokpets.html");
+});
+
+
+
+
+
+
 
 // Need to add response if page not found!
 app.use(function(req, res){
@@ -74,6 +115,11 @@ const listener = app.listen(3000, function () {
 /* some database operations */
 /****************************/
 
+//Delete everything on the database
+//db.deleteEverything();
+
+//Inset object
+
 
 // test the function that inserts into the database
 function databaseCodeExample() {
@@ -94,14 +140,13 @@ function databaseCodeExample() {
    console.log(tableContents.length);
    console.log(dumpTable())
    // return the length of the table to see if it's more than 8
-   return tableContents.length;
+   //return tableContents.length;
    
  }
 
 
-
-insertAndCount(vidObj)
-  .catch(function(err) {console.log("DB error!",err)});
+// insertAndCount(vidObj)
+//   .catch(function(err) {console.log("DB error!",err)});
   
   
   
@@ -131,7 +176,7 @@ insertAndCount(vidObj)
 
 
 // inserting sample to videos.db
-databaseCodeExample();
+// databaseCodeExample();
 
 // ******************************************** //
 // Define async functions to perform the database 
@@ -161,6 +206,7 @@ async function dumpTable() {
   let result = await db.all(sql);
   return result;
 }
+
 
 
 // // count function return the number of rows on the database
