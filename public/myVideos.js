@@ -1,3 +1,13 @@
+// Bug
+
+// first ,insert entries to the data base, then the nicknames will be shown on the textboxes
+// but after clicking on the delete button, some of the nickname is still showing even though the entry is deleted on the database
+
+
+
+
+
+
 
 // send GET request
 async function sendGetRequest(url) {
@@ -70,11 +80,14 @@ let delete1Button = document.getElementById("delete1");
 delete1Button.addEventListener("click",delete1Press);
 
 function delete1Press(){
+    
     sendPostDeleteRequest('/deleteVideo',name1.textContent)
       .then(function(){
-        setNames()
-          .then(function(){sendGetRequest("/")});
+        name1.textContent = "";
+        setNames();
       })
+
+      
 
 }
 
@@ -85,6 +98,7 @@ delete2Button.addEventListener("click",delete2Press);
 function delete2Press(){
     sendPostDeleteRequest('/deleteVideo',name2.textContent)
       .then(function(){
+        name2.textContent = "";
         setNames();
       })
 
@@ -97,6 +111,7 @@ delete3Button.addEventListener("click",delete3Press);
 function delete3Press(){
     sendPostDeleteRequest('/deleteVideo',name3.textContent)
       .then(function(){
+        name3.textContent = "";
         setNames();
       })
 
@@ -109,6 +124,7 @@ delete4Button.addEventListener("click",delete4Press);
 function delete4Press(){
     sendPostDeleteRequest('/deleteVideo',name4.textContent)
       .then(function(){
+        name4.textContent = "";
         setNames();
       })
 }

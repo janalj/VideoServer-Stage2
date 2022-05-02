@@ -274,14 +274,14 @@ async function deleteRow(name) {
 
 // Inset object
 
-// let vidObj = {
-// "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
-//  "nickname": "Dog9",
-//  "userid": "DogeCoin6",
-//   "flag": 1
-//    }
+let vidObj = {
+"url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+ "nickname": "Dog4",
+ "userid": "DogeCoin6",
+  "flag": 1
+   }
 
-// insertVideo(vidObj);
+//insertVideo(vidObj);
 
 
 
