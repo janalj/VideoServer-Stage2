@@ -25,6 +25,8 @@ async function sendGetRequest(url) {
 sendGetRequest("/getMostRecent")
   .then(function(response){
     console.log("URL recieved: ", response);
+    let turl = response.url;
+    console.log(turl);
     
     // add the blockquote element that TikTok wants to load the video into
     addVideo(response,videoDiv);

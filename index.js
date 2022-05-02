@@ -278,7 +278,7 @@ async function dumpTable() {
 async function getMostRecentVideo(flag) {
   try{
     // warning! You can only use ? to replace table data, not table name or column name.
-    const sql = 'select * from VideoTable where flag = ?';
+    const sql = 'select url from VideoTable where flag = ?';
     let result = await db.get(sql, [flag]);
     
     return result;
