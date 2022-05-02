@@ -101,7 +101,7 @@ app.get("/getMostRecent", (request, response) => {
   getMostRecentVideo(1)
     .then(function(result){ 
         // send back response in JSON
-        response.send(result);
+        response.json(result);
     })
     .catch(function(err){
       console.log("No video with flag value 1", err)});  
@@ -274,7 +274,8 @@ let vidObj = {
   "flag": 1 
 }
 
-//insertVideo(vidObj);
+insertVideo(vidObj);
+
 
 
 

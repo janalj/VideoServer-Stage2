@@ -71,6 +71,7 @@ button.boxButton:hover {
   background-color: rgba(105, 201, 208, 0.9);
 }
 
+
 .videosList {
   display: flex;
   flex-direction: row;
@@ -96,7 +97,6 @@ button.boxButton:hover {
 .videoNameBox {
   display: flex;
   align-items: center;
-  justify-content: center;
   font-weight: 400;
   width: 100%;
   height: 65px;
@@ -104,6 +104,10 @@ button.boxButton:hover {
   border-radius: 12px;
   border: 2px dashed;
   border-color: lightgray;
+}
+
+.videoName {
+  margin-left: 30px;
 }
 
 button.delete{
@@ -119,4 +123,17 @@ button.delete{
 
 button.delete:hover {
   color: rgba(105, 201, 208, 0.9);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.delete[disabled]:hover{
+  color: rgba(238, 29, 82, 0.9);
+}
+
+button.boxButton[disabled]:hover{
+  background-color: rgba(238, 29, 82, 0.9);
 }

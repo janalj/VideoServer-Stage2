@@ -1,5 +1,10 @@
 let reloadButton = document.getElementById("replayButton");
 let videoDiv = document.getElementById("video");
+let continueButton = document.getElementById("continue");
+
+continueButton.addEventListener("click", function(){
+  window.location = "myVideos.html"; 
+});
 
 //reload video when reload button is clicked
 reloadButton.addEventListener("click",reloadVideo);
@@ -20,16 +25,20 @@ async function sendGetRequest(url) {
   }
 }
 
-/////////// Video Preview Page ///////////
+
+let videoCaption = document.getElementById("videoName");
 //send Get request to get most recent video for preview
+let url; //most recent url
 sendGetRequest("/getMostRecent")
   .then(function(response){
-    console.log("URL recieved: ", response);
-    let turl = response.url; // try adding eval()
-    console.log(turl);
-    
+    let videoName = JSON.parse(response).nickname;
+    url = JSON.parse(response).url;
+    console.log("URL recieved: ", url);
+
+    // set video nickname as caption
+    videoCaption.textContent = videoName; 
     // add the blockquote element that TikTok wants to load the video into
-    addVideo(response,videoDiv);
+    addVideo(url,videoDiv);
     // on start-up, load the videos
     loadTheVideos();
   })
@@ -94,7 +103,7 @@ function reloadVideo () {
   body.removeChild(script1);
   body.removeChild(script2);
 
-  addVideo(example,divElmt);
+  addVideo(url,videoDiv);
   loadTheVideos();
 }
       

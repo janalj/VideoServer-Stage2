@@ -5,13 +5,16 @@
 let addNewButton = document.getElementById("addNew");
 let playGameButton = document.getElementById("playGame");
 
+addNewButton.addEventListener("click", function(){
+  window.location = "tiktokpets.html"; 
+});
 
 // send GET request
 async function sendGetRequest(url) {
   params = {
     method: 'GET', 
     headers: {'Content-Type': 'application/json'}};
-  console.log("about to send get request");
+    console.log("about to send get request");
   
   let response = await fetch(url,params);
   if (response.ok) {
@@ -27,7 +30,7 @@ async function sendPostDeleteRequest(url,data) {
     method: 'POST', 
     headers: {'Content-Type': 'text/plain'},
     body: data };
-  console.log("about to send post delete request");
+    console.log("about to send post delete request");
   
   let response = await fetch(url,params);
   if (response.ok) {
@@ -49,16 +52,34 @@ let name7 = document.getElementById("name7");
 let name8 = document.getElementById("name8");
 */
 let names = document.getElementsByClassName("videoName");
+let boxes = document.getElementsByClassName("videoNameBox"); //change border from dashed to solid
+let deleteButtons = document.getElementsByClassName("delete");
 
 async function setNames(){
   let nameList = await sendGetRequest("/getList");
+
+  //disable playGameButton if < 8 elements, if =8 elements disable addNewButton
+  if (nameList.length < 8){
+    playGameButton.disabled = true;
+    addNewButton.disabled = false;
+    console.log("playGameButton.disabled = ",playGameButton.disabled);
+  }
+  else if (nameList.length == 8){
+    addNewButton.disabled = true;
+    playGameButton.disabled = false;
+    console.log("addNewButton.disabled = ",addNewButton.disabled);
+  }
+  
   // for loop passing the nickname from the object to textboxes
   for (let i = 0; i < 8; i++){
-    if(i < nameList.length){  
+    if(i < nameList.length){  // filled slots
       names[i].textContent = nameList[i].nickname;
+      boxes[i].style.border = "2px solid lightgray"; //change border to solid
+      deleteButtons[i].disabled = false;
     }
-    else{
+    else{ //empty slots
       names[i].textContent = "";
+      deleteButtons[i].disabled = true;
     }
   }
  /* 
@@ -79,10 +100,10 @@ async function setNames(){
 // get the entire table from the server, then pass them to the text boxes
 setNames();
 
-let deleteButtons = document.getElementsByClassName("delete");
+
 // set event listeners for delete buttons
 for (let i = 0; i < 8; i++){
-  deleteButtons[i].addEventListener("click", deletePress(i));
+  deleteButtons[i].addEventListener("click", function(){ deletePress(i); });
 }
 
 // action for delte button pressed
@@ -90,6 +111,7 @@ function deletePress(index){
   sendPostDeleteRequest('/deleteVideo',names[index].textContent)
     .then(function(){
       setNames();
+      console.log("Video Deleted");
     })
     .catch(function(err){
       console.log("Delete Request Failed ",err);

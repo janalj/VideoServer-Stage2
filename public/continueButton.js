@@ -1,6 +1,10 @@
 let continueButton = document.getElementById("continue");
 continueButton.addEventListener("click",buttonPress);
 
+let myVideosButton = document.getElementById("myVideos");
+myVideosButton.addEventListener("click", function(){
+  window.location = "myVideos.html"; 
+});
 
 // given function that sends a post request
 async function sendPostRequest(url,data) {
