@@ -42,6 +42,7 @@ app.use(express.static("public"));
 // if no file specified, return the main page
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/public/myVideos.html");
+  // send back a list of names, then display them on my videos page
 });
 
 // Handles post requests form the browser to store videoData to the database
@@ -71,13 +72,14 @@ app.post("/videoData", async function(req, res){
 // "/getList Get request"
 app.get("/getList", (request, response) => {
   // get the video with flag value of 1
-    dumpTable()
+    //dumpTable()
+    getNameList()
     .then(function(result){ 
         console.log(result);     
         // send back response in JSON
         response.json(result);
     })
-    .catch(function(err){console.log("Can't ",err)});  
+    .catch(function(err){console.log("dumpTable not responding ",err)});  
 });
 
 
@@ -181,6 +183,20 @@ async function updateFlag() {
 }
 
 
+// an async function to list of the nicknames from database
+async function getNameList() {
+  try{
+    // warning! You can only use ? to replace table data, not table name or column name.
+    const sql = 'select nickname from VideoTable ';
+    let result = await db.all(sql);
+    
+    return result;
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -213,7 +229,8 @@ async function updateFlag() {
 
 
 
-// TESTING CODES
+
+                                              // TESTING CODES
 
 /****************************/
 /* some database operations */
@@ -222,13 +239,13 @@ async function updateFlag() {
 //Delete everything on the database
 //db.deleteEverything();
 
-//Inset object
+// Inset object
 
 // let vidObj = {
 // "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
-//  "nickname": "Dog",
-//  "userid": "DogeCoin",
-//   "flag": 0
+//  "nickname": "Dog8",
+//  "userid": "DogeCoin8",
+//   "flag": 1
 //    }
 
 // insertVideo(vidObj);
