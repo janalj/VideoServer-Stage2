@@ -210,9 +210,9 @@ async function getNameList() {
 // async delete function to delete an row on the database based on the name
 async function deleteRow(name) {
   try{
-    const sql = 'delete from VideoTable where nickname = ?';
+    const sql = 'delete * from VideoTable where nickname = ?';
     await db.run(sql, [name]);
-    await db.run("vacuum"); // cleanup viceos.db
+    await db.run("vacuum"); // cleanup videos.db
     console.log("Delete: ",name);
   }
   catch(err){
