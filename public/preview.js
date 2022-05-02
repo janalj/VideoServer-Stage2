@@ -32,7 +32,7 @@ sendGetRequest("/getMostRecent")
     loadTheVideos();
   })
   .catch(function(err){
-    console.log("GET request error", err);
+    console.log("GET request error:", err);
   });
 
 ////////////////////////// Video Preview Stuff ///////////////////////////

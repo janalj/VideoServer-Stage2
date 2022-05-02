@@ -65,8 +65,25 @@ app.post("/videoData", async function(req, res){
   else{
     console.log("Database is full");
   }
-  
+  res.send("Got Video");
 })
+
+// "/getList Get request"
+
+app.get("/getList", (request, response) => {
+  // get the video with flag value of 1
+    dumpTable()
+    .then(function(result){ 
+        console.log(result);     
+        // send back response in JSON
+        response.json(jsonResult);
+    })
+    .catch(function(){console.log("No video with flag value 1")});  
+});
+
+
+
+
 
 /*
 app.post("/videoData", (req, res) =>{
@@ -119,11 +136,12 @@ app.get("/getMostRecent", (request, response) => {
   // get the video with flag value of 1
   getMostRecentVideo(1)
     .then(function(result){ 
-        console.log(result);     
         // send back response in JSON
-        response.json(jsonResult);
+        response.send(result);
     })
-    .catch(function(){console.log("No video with flag value 1")});  
+    .catch(function(err){
+      console.log(err);
+      console.log("No video with flag value 1")});  
 });
 
 
@@ -261,8 +279,8 @@ async function getMostRecentVideo(flag) {
   try{
     // warning! You can only use ? to replace table data, not table name or column name.
     const sql = 'select * from VideoTable where flag = ?';
-  
     let result = await db.get(sql, [flag]);
+    
     return result;
   }
   catch(err){
