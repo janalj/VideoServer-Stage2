@@ -41,7 +41,7 @@ app.use(express.static("public"));
 
 // if no file specified, return the main page
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/public/tiktokpets.html");
+  response.sendFile(__dirname + "/public/myVideos.html");
 });
 
 // Handles post requests form the browser to store videoData to the database
@@ -69,65 +69,17 @@ app.post("/videoData", async function(req, res){
 })
 
 // "/getList Get request"
-
 app.get("/getList", (request, response) => {
   // get the video with flag value of 1
     dumpTable()
     .then(function(result){ 
         console.log(result);     
         // send back response in JSON
-        response.json(jsonResult);
+        response.json(result);
     })
-    .catch(function(){console.log("No video with flag value 1")});  
+    .catch(function(err){console.log("Can't ",err)});  
 });
 
-
-
-
-
-/*
-app.post("/videoData", (req, res) =>{
-  console.log("sending Response");
-  // parse the JSON body to Javascript Object type
-  let info = req.body;
-  
-  // create a new object to pass into insertVideo function
-  let vidObj = {
-    "url": info.TikTokURL ,
-    "nickname": info.VideoNickname,
-    "userid": info.Username,
-    "flag": 1
-  }
-   
-  dumpTable()
-    .then(function(result){
-      let len = result.length;
-      //console.log(len);
-      if (len>=0 && len<=7){
-        // find the current item with True flag, change it to False
-        
-        //get the most recent video with the flag value 1
-        getMostRecentVideo(1)
-          .then(function(result){//console.log(result);
-              updateFlag() // change the previous flag value to 0
-                .then(function(){
-                  insertVideo(vidObj);})// insert new row to the database
-                .catch(function(){console.log("Can't change the flag to 0")});
-              })
-          .catch(function(){console.log("Can't get the most recent video")});
-      }
-      else{
-        // send back a response 
-        res.send("database full");  //?
-      }
-    })
-    .catch(function(){
-      console.log("Couldn't get the entire table")
-    })
-    ;
-  res.send('recieved POST'); //?
-});
-*/
 
 
 //6. get Request gets the most recently added video from database
@@ -140,8 +92,7 @@ app.get("/getMostRecent", (request, response) => {
         response.send(result);
     })
     .catch(function(err){
-      console.log(err);
-      console.log("No video with flag value 1")});  
+      console.log("No video with flag value 1", err)});  
 });
 
 
@@ -159,77 +110,6 @@ const listener = app.listen(3000, function () {
   console.log("The static server is listening on port " + listener.address().port);
 });
 
-/****************************/
-/* some database operations */
-/****************************/
-
-//Delete everything on the database
-db.deleteEverything();
-
-//Inset object
-
-// let vidObj = {
-// "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
-//  "nickname": "Dog",
-//  "userid": "DogeCoin",
-//   "flag": 0
-//    }
-
-// insertVideo(vidObj);
-
-// test the function that inserts into the database
-function databaseCodeExample() {
-
-  console.log("testing database");
-
-  // put the video data into an object
-  let vidObj = {
-"url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
- "nickname": "Cat vs Fish",
- "userid": "ProfAmenta"
-   }
-
- async function insertAndCount(vidObj) {
-  
-   await insertVideo(vidObj);
-   const tableContents = await dumpTable(); 
-   console.log(tableContents.length);
-   console.log(dumpTable())
-   // return the length of the table to see if it's more than 8
-   //return tableContents.length;
-   
- }
-
-// insertAndCount(vidObj)
-//   .catch(function(err) {console.log("DB error!",err)});
-  
-  insertVideo(vidObj)
-    .then(function() {
-      console.log("success!");
-    })
-    .catch(function(err) {
-      console.log("SQL error",err)} );
- 
-  dumpTable()
-  .then(function(result) {
-    let n = result.length;
-    console.log(n+" items in the database"); })
-  .catch(function(err) {
-      console.log("SQL error",err)} );
- 
-  
-  getVideo("Cat vs Fish")
-    .then(function(result) {
-       console.log("row contained",result); 
-          })
-    .catch(function(err) {
-      console.log("SQL error",err)} );
-
-}
-
-
-// inserting sample to videos.db
-// databaseCodeExample();
 
 // ******************************************** //
 // Define async functions to perform the database 
@@ -278,7 +158,7 @@ async function dumpTable() {
 async function getMostRecentVideo(flag) {
   try{
     // warning! You can only use ? to replace table data, not table name or column name.
-    const sql = 'select url from VideoTable where flag = ?';
+    const sql = 'select * from VideoTable where flag = ?';
     let result = await db.get(sql, [flag]);
     
     return result;
@@ -304,6 +184,115 @@ async function updateFlag() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// TESTING CODES
+
+/****************************/
+/* some database operations */
+/****************************/
+
+//Delete everything on the database
+//db.deleteEverything();
+
+//Inset object
+
+// let vidObj = {
+// "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+//  "nickname": "Dog",
+//  "userid": "DogeCoin",
+//   "flag": 0
+//    }
+
+// insertVideo(vidObj);
+
+
+
+// test the function that inserts into the database
+function databaseCodeExample() {
+
+  console.log("testing database");
+
+  // put the video data into an object
+  let vidObj = {
+"url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+ "nickname": "Cat vs Fish",
+ "userid": "ProfAmenta"
+   }
+
+ async function insertAndCount(vidObj) {
+  
+   await insertVideo(vidObj);
+   const tableContents = await dumpTable(); 
+   console.log(tableContents.length);
+   console.log(dumpTable())
+   // return the length of the table to see if it's more than 8
+   //return tableContents.length;
+   
+ }
+
+insertAndCount(vidObj)
+//   .catch(function(err) {console.log("DB error!",err)});
+  
+  insertVideo(vidObj)
+    .then(function() {
+      console.log("success!");
+    })
+    .catch(function(err) {
+      console.log("SQL error",err)} );
+ 
+  dumpTable()
+  .then(function(result) {
+    let n = result.length;
+    console.log(n+" items in the database"); })
+  .catch(function(err) {
+      console.log("SQL error",err)} );
+ 
+  
+  getVideo("Cat vs Fish")
+    .then(function(result) {
+       console.log("row contained",result); 
+          })
+    .catch(function(err) {
+      console.log("SQL error",err)} );
+
+}
+
+
+// inserting sample to videos.db
+// databaseCodeExample();
+
+
+
+
+
 // // count function return the number of rows on the database
 
 // async function count(){
@@ -311,3 +300,47 @@ async function updateFlag() {
 //   let result = await db.all(sql);
 //   return result;
 // }
+
+/*
+app.post("/videoData", (req, res) =>{
+  console.log("sending Response");
+  // parse the JSON body to Javascript Object type
+  let info = req.body;
+  
+  // create a new object to pass into insertVideo function
+  let vidObj = {
+    "url": info.TikTokURL ,
+    "nickname": info.VideoNickname,
+    "userid": info.Username,
+    "flag": 1
+  }
+   
+  dumpTable()
+    .then(function(result){
+      let len = result.length;
+      //console.log(len);
+      if (len>=0 && len<=7){
+        // find the current item with True flag, change it to False
+        
+        //get the most recent video with the flag value 1
+        getMostRecentVideo(1)
+          .then(function(result){//console.log(result);
+              updateFlag() // change the previous flag value to 0
+                .then(function(){
+                  insertVideo(vidObj);})// insert new row to the database
+                .catch(function(){console.log("Can't change the flag to 0")});
+              })
+          .catch(function(){console.log("Can't get the most recent video")});
+      }
+      else{
+        // send back a response 
+        res.send("database full");  //?
+      }
+    })
+    .catch(function(){
+      console.log("Couldn't get the entire table")
+    })
+    ;
+  res.send('recieved POST'); //?
+});
+*/

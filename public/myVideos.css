@@ -94,6 +94,9 @@ button.boxButton:hover {
 }
 
 .videoNameBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 400;
   width: 100%;
   height: 65px;
