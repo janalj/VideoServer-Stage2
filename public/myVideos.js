@@ -63,3 +63,18 @@ setNames();
 
 // id = "addNew"
 // id= "playGame"
+
+
+// initializing 8 delete buttons
+let delete1Button = document.getElementById("delete1");
+
+
+
+
+let delete2Button = document.getElementById("delete2");
+let delete3Button = document.getElementById("delete3");
+let delete4Button = document.getElementById("delete4");
+let delete5Button = document.getElementById("delete5");
+let delete6Button = document.getElementById("delete6");
+let delete7Button = document.getElementById("delete7");
+let delete8Button = document.getElementById("delete8");

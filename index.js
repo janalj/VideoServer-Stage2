@@ -72,8 +72,8 @@ app.post("/videoData", async function(req, res){
 // "/getList Get request"
 app.get("/getList", (request, response) => {
   // get the video with flag value of 1
-    //dumpTable()
-    getNameList()
+    dumpTable()
+    //getNameList()
     .then(function(result){ 
         console.log(result);     
         // send back response in JSON
@@ -196,6 +196,24 @@ async function getNameList() {
     console.log(err);
   }
 }
+
+
+// async delete function to delete an row on the database based on the name
+async function deleteRow(name) {
+  try{
+
+    const sql = 'delete from VideoTable where nickname = ?';
+    await db.run(sql, [name]);
+    await db.run("vacuum"); // cleanup viceos.db
+    console.log("Delete: ",name);
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
