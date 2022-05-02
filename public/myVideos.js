@@ -2,6 +2,8 @@
 
 // first ,insert entries to the data base, then the nicknames will be shown on the textboxes
 // but after clicking on the delete button, some of the nickname is still showing even though the entry is deleted on the database
+let addNewButton = document.getElementById("addNew");
+let playGameButton = document.getElementById("playGame");
 
 
 // send GET request
@@ -51,8 +53,13 @@ let names = document.getElementsByClassName("videoName");
 async function setNames(){
   let nameList = await sendGetRequest("/getList");
   // for loop passing the nickname from the object to textboxes
-  for (let i = 0; i < names.length; i++){
-    names[i].textContent = nameList[i].nickname;
+  for (let i = 0; i < 8; i++){
+    if(i < nameList.length){  
+      names[i].textContent = nameList[i].nickname;
+    }
+    else{
+      names[i].textContent = "";
+    }
   }
  /* 
   for (let i =0; i < arrayOfObjects.length;i++){
@@ -68,24 +75,25 @@ async function setNames(){
   }  
  */
 }
+
 // get the entire table from the server, then pass them to the text boxes
 setNames();
 
 let deleteButtons = document.getElementsByClassName("delete");
 // set event listeners for delete buttons
 for (let i = 0; i < 8; i++){
-  button[i].addEventListener("click", deletePress;
+  deleteButtons[i].addEventListener("click", deletePress(i));
 }
 
 // action for delte button pressed
 function deletePress(index){
-    sendPostDeleteRequest('/deleteVideo',names[index].textContent)
-      .then(function(){
-        setNames();
-      })
-      .catch(function(err){
-        console.log("Delete Request Failed ",err);
-      });
+  sendPostDeleteRequest('/deleteVideo',names[index].textContent)
+    .then(function(){
+      setNames();
+    })
+    .catch(function(err){
+      console.log("Delete Request Failed ",err);
+    });
 }
 /*
 // initializing 8 delete buttons

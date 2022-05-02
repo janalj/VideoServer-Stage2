@@ -210,7 +210,7 @@ async function getNameList() {
 // async delete function to delete an row on the database based on the name
 async function deleteRow(name) {
   try{
-    const sql = 'delete * from VideoTable where nickname = ?';
+    const sql = 'delete from VideoTable where nickname = ?';
     await db.run(sql, [name]);
     await db.run("vacuum"); // cleanup videos.db
     console.log("Delete: ",name);
@@ -268,11 +268,11 @@ async function deleteRow(name) {
 // Inset object
 
 let vidObj = {
-"url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
+ "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
  "nickname": "Dog4",
  "userid": "DogeCoin6",
-  "flag": 1
-   }
+  "flag": 1 
+}
 
 //insertVideo(vidObj);
 
