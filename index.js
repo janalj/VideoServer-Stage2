@@ -69,6 +69,22 @@ app.post("/videoData", async function(req, res){
   res.send("Got Video");
 })
 
+
+// 11. Post request receives a nickname, then delete the row with that nickname on the database 
+
+app.post("/deleteVideo", async function(req, res){
+  console.log("Receied Delete request");
+  let receivedNickname = req.body;
+  await deleteRow(receivedNickname);
+  res.send("Deleted");
+})
+
+
+
+
+
+
+
 // "/getList Get request"
 app.get("/getList", (request, response) => {
   // get the video with flag value of 1
@@ -81,7 +97,6 @@ app.get("/getList", (request, response) => {
     })
     .catch(function(err){console.log("dumpTable not responding ",err)});  
 });
-
 
 
 //6. get Request gets the most recently added video from database
@@ -261,8 +276,8 @@ async function deleteRow(name) {
 
 // let vidObj = {
 // "url": "https://www.tiktok.com/@cheyennebaker1/video/7088856562982423854",
-//  "nickname": "Dog8",
-//  "userid": "DogeCoin8",
+//  "nickname": "Dog9",
+//  "userid": "DogeCoin6",
 //   "flag": 1
 //    }
 
