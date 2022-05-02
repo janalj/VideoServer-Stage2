@@ -4,11 +4,6 @@
 // but after clicking on the delete button, some of the nickname is still showing even though the entry is deleted on the database
 
 
-
-
-
-
-
 // send GET request
 async function sendGetRequest(url) {
   params = {
@@ -24,39 +19,6 @@ async function sendGetRequest(url) {
     throw Error(response.status);
   }
 }
-// initialize the textboxes elements
-let name1 = document.getElementById("name1");
-let name2 = document.getElementById("name2");
-let name3 = document.getElementById("name3");
-let name4 = document.getElementById("name4");
-let name5 = document.getElementById("name5");
-let name6 = document.getElementById("name6");
-let name7 = document.getElementById("name7");
-let name8 = document.getElementById("name8");
-
-async function setNames(){
-  let nameList = await sendGetRequest("/getList");
-  let arrayOfObjects = nameList;
-  // for loop passing the nickname from the object to textboxes
-  for (let i =0; i < arrayOfObjects.length;i++){
-    if (i == 0){ name1.textContent = arrayOfObjects[i].nickname; };
-    if (i == 1){ name2.textContent = arrayOfObjects[i].nickname; };
-    if (i == 2){ name3.textContent = arrayOfObjects[i].nickname; };
-    if (i == 3){ name4.textContent = arrayOfObjects[i].nickname; };
-    if (i == 4){ name5.textContent = arrayOfObjects[i].nickname; };
-    if (i == 5){ name6.textContent = arrayOfObjects[i].nickname; };
-    if (i == 6){ name7.textContent = arrayOfObjects[i].nickname; };
-    if (i == 7){ name8.textContent = arrayOfObjects[i].nickname; };
-    
-  }  
-}
-// get the entire table from the server, then pass them to the text boxes
-setNames();
-
-
-// id = "addNew"
-// id= "playGame"
-
 
 async function sendPostDeleteRequest(url,data) {
   params = {
@@ -73,6 +35,59 @@ async function sendPostDeleteRequest(url,data) {
     throw Error(response.status);
   }
 }
+/*
+// initialize the textboxes elements
+let name1 = document.getElementById("name1");
+let name2 = document.getElementById("name2");
+let name3 = document.getElementById("name3");
+let name4 = document.getElementById("name4");
+let name5 = document.getElementById("name5");
+let name6 = document.getElementById("name6");
+let name7 = document.getElementById("name7");
+let name8 = document.getElementById("name8");
+*/
+let names = document.getElementsByClassName("videoName");
+
+async function setNames(){
+  let nameList = await sendGetRequest("/getList");
+  // for loop passing the nickname from the object to textboxes
+  for (let i = 0; i < names.length; i++){
+    names[i].textContent = nameList[i].nickname;
+  }
+ /* 
+  for (let i =0; i < arrayOfObjects.length;i++){
+    if (i == 0){ name1.textContent = arrayOfObjects[i].nickname; };
+    if (i == 1){ name2.textContent = arrayOfObjects[i].nickname; };
+    if (i == 2){ name3.textContent = arrayOfObjects[i].nickname; };
+    if (i == 3){ name4.textContent = arrayOfObjects[i].nickname; };
+    if (i == 4){ name5.textContent = arrayOfObjects[i].nickname; };
+    if (i == 5){ name6.textContent = arrayOfObjects[i].nickname; };
+    if (i == 6){ name7.textContent = arrayOfObjects[i].nickname; };
+    if (i == 7){ name8.textContent = arrayOfObjects[i].nickname; };
+    
+  }  
+ */
+}
+// get the entire table from the server, then pass them to the text boxes
+setNames();
+
+let deleteButtons = document.getElementsByClassName("delete");
+// set event listeners for delete buttons
+for (let i = 0; i < 8; i++){
+  button[i].addEventListener("click", deletePress;
+}
+
+// action for delte button pressed
+function deletePress(index){
+    sendPostDeleteRequest('/deleteVideo',names[index].textContent)
+      .then(function(){
+        setNames();
+      })
+      .catch(function(err){
+        console.log("Delete Request Failed ",err);
+      });
+}
+/*
 // initializing 8 delete buttons
 
 // delete1 button
@@ -176,5 +191,5 @@ function delete8Press(){
       })
 
 }
-
+*/
 

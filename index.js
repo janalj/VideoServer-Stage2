@@ -79,12 +79,6 @@ app.post("/deleteVideo", async function(req, res){
   res.send("Deleted");
 })
 
-
-
-
-
-
-
 // "/getList Get request"
 app.get("/getList", (request, response) => {
   // get the video with flag value of 1
@@ -95,9 +89,10 @@ app.get("/getList", (request, response) => {
         // send back response in JSON
         response.json(result);
     })
-    .catch(function(err){console.log("dumpTable not responding ",err)});  
+    .catch(function(err){
+      console.log("dumpTable not responding ",err);
+    });  
 });
-
 
 //6. get Request gets the most recently added video from database
 //NEED TO TEST THIS 
@@ -111,7 +106,6 @@ app.get("/getMostRecent", (request, response) => {
     .catch(function(err){
       console.log("No video with flag value 1", err)});  
 });
-
 
 // Need to add response if page not found!
 app.use(function(req, res){
@@ -216,7 +210,6 @@ async function getNameList() {
 // async delete function to delete an row on the database based on the name
 async function deleteRow(name) {
   try{
-
     const sql = 'delete from VideoTable where nickname = ?';
     await db.run(sql, [name]);
     await db.run("vacuum"); // cleanup viceos.db
