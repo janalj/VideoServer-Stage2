@@ -72,13 +72,14 @@ async function setNames(){
   
   // for loop passing the nickname from the object to textboxes
   for (let i = 0; i < 8; i++){
-    if(i < nameList.length || nameList.length == 0){  // filled slots
+    if(i < nameList.length){  // filled slots
       names[i].textContent = nameList[i].nickname;
       boxes[i].style.border = "2px solid lightgray"; //change border to solid
       deleteButtons[i].disabled = false;
     }
     else{ //empty slots
       names[i].textContent = "";
+      boxes[i].style.border = "2px dashed lightgray"; 
       deleteButtons[i].disabled = true;
     }
   }
