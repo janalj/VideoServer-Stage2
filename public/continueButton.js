@@ -40,12 +40,15 @@ function buttonPress() {
   //post video data to server
   sendPostRequest("/videoData", videoData)
     .then( function (response) {
-      // first check the number of videos in the database, if full, send back "databse full"
-      // find the "True " flag, change it to False,  insert the new one to True
       console.log("POST request response recieved", response);
-      
-      //change the redirection to my videoPreview 
-      window.location = "videoPreview.html"; 
+      //If database is full, send alert
+      if (response == "database full"){ 
+        window.alert("Database is full, can only add 8 videos!");
+      }
+      else{
+        //change the redirection to my videoPreview 
+        window.location = "videoPreview.html"; 
+      }
     })
     .catch( function(err) {
       console.log("POST request error",err);

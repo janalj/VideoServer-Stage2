@@ -62,11 +62,12 @@ app.post("/videoData", async function(req, res){
   if(result.length < 8){
     await updateFlag();
     await insertVideo(vidObj);
+    res.send("Got Video");
   }
   else{
+    res.send("database full");
     console.log("Database is full");
   }
-  res.send("Got Video");
 })
 
 
@@ -274,7 +275,7 @@ let vidObj = {
   "flag": 1 
 }
 
-insertVideo(vidObj);
+//insertVideo(vidObj);
 
 
 
