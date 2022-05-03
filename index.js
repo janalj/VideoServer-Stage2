@@ -74,10 +74,10 @@ app.post("/videoData", async function(req, res){
 // 11. Post request receives a nickname, then delete the row with that nickname on the database 
 
 app.post("/deleteVideo", async function(req, res){
-  console.log("Receied Delete request");
-  let receivedNickname = req.body;
-  await deleteRow(receivedNickname);
-  res.send("Deleted");
+  console.log("Receied Delete request to delete rowIdNum = ", req.body);
+  let receivedrowIdNum = req.body;
+  await deleteRow(receivedrowIdNum);
+  res.send("Row Deleted");
 })
 
 // "/getList Get request"
@@ -209,12 +209,12 @@ async function getNameList() {
 
 
 // async delete function to delete an row on the database based on the name
-async function deleteRow(name) {
+async function deleteRow(rowId) {
   try{
-    const sql = 'delete from VideoTable where nickname = ?';
-    await db.run(sql, [name]);
+    const sql = 'delete from VideoTable where rowIdNum = ?';
+    await db.run(sql, [rowId]);
     await db.run("vacuum"); // cleanup videos.db
-    console.log("Delete: ",name);
+    console.log("Deleted row: ", rowId);
   }
   catch(err){
     console.log(err);

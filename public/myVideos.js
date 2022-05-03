@@ -107,8 +107,11 @@ for (let i = 0; i < 8; i++){
 }
 
 // action for delte button pressed
-function deletePress(index){
-  sendPostDeleteRequest('/deleteVideo',names[index].textContent)
+async function deletePress(index){
+  let dataList = await sendGetRequest("/getList");
+
+  //deletes ROW using the corresponding unique rowIdNum instead of videoName so if two videos have the same nickname, it doesn't delete both entries
+  sendPostDeleteRequest('/deleteVideo',dataList[index].rowIdNum)
     .then(function(){
       setNames();
       console.log("Video Deleted");
