@@ -55,7 +55,7 @@ button.boxButton {
   box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
   width: 130px;
   height: 50px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   text-align: center;
@@ -108,6 +108,8 @@ button.boxButton:hover {
 
 .videoName {
   margin-left: 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
 }
 
 button.delete{
@@ -136,4 +138,59 @@ button.delete[disabled]:hover{
 
 button.boxButton[disabled]:hover{
   background-color: rgba(238, 29, 82, 0.9);
+}
+
+/*Tablet View */
+@media screen and (max-width:900px) {
+
+  button.delete {
+    font-size: 60px;
+  }
+
+  .videosList {
+    flex-direction: column;
+  }
+
+  .videoNameBox {
+    height: 50px;
+  }
+}
+
+/*Mobile View */
+@media screen and (max-width:700px){ 
+  .headerCenter {
+    order: 1;
+    width: 40%;
+  }
+
+  .headerLeft {
+    order: 2;
+    display: none;
+  }
+
+  div.headerRight {
+    order: 3;
+    width: 30%;
+  }
+  
+  h1 {
+    font-size: 32px;  
+  }
+
+  h2 {
+    font-size: 18px;  
+  }
+
+  button.boxButton {
+    font-size: 16px;
+  }
+
+  .videoName {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  }
+
+  button.delete{
+    font-size: 44px;
+  }
 }

@@ -95,3 +95,37 @@ button.boxButton {
 button.boxButton:hover {
   background-color: rgba(105, 201, 208, 0.9);
 }
+
+/*Tablet View */
+@media screen and (max-width:900px) {
+
+  #bottom {
+    flex-direction: column;
+  }
+
+  #left {
+    display: none;
+  }
+
+  #right{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/*Mobile View */
+@media screen and (max-width:700px){ 
+
+  h1 {
+    font-size: 32px;
+  }
+  
+  #videoName {
+    font-size: 18px;
+  }
+
+  button.boxButton {
+    font-size: 16px;
+  }
+}
